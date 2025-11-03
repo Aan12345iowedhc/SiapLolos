@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulasi Tryout - SiapLolos</title>
+    <!-- Memuat Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Menggunakan radio button kustom untuk pilihan ganda di dark mode */
+      .choice-label:hover {
+        background-color: #374151; /* bg-gray-700 */
+      }
+      .choice-input:checked + .choice-label {
+        background-color: #1e40af; /* bg-blue-800 */
+        border-color: #3b82f6; /* border-blue-500 */
+      }
+      .choice-input:checked + .choice-label span {
+        color: #ffffff; /* text-white */
+      }
+    </style>
+  </head>
+  <!-- Terapkan Dark Mode (Mode Gelap) di body -->
+  <body class="bg-gray-900 text-gray-200 font-sans">
+    <!-- 1. Header Tryout (Minimalis - Dark Mode) -->
+    <nav
+      class="bg-gray-800 shadow-md sticky top-0 z-50 border-b border-gray-700"
+    >
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div>
+          <span class="text-sm text-gray-400">Tryout Premium #3</span>
+          <h1 class="text-xl font-bold text-white">Penalaran Umum</h1>
+        </div>
+        <!-- Tombol darurat untuk kembali (bisa di-style lebih baik) -->
+        <a
+          href="dashboard.html"
+          class="text-sm font-medium text-red-500 hover:text-red-400"
+        >
+          Akhiri Sesi
+        </a>
+      </div>
+    </nav>
+
+    <!-- Layout Utama 2 Kolom -->
+    <!-- Kita set tinggi agar panel kanan bisa sticky -->
+    <div class="flex flex-col md:flex-row" style="height: calc(100vh - 69px)">
+      <!-- 2. Area Utama (Kiri): Soal & Pilihan Jawaban -->
+      <main class="flex-1 overflow-y-auto p-6 md:p-10">
+        <!-- [PERUBAHAN]: Menambahkan 'id' pada elemen-elemen di bawah -->
+        <div class="bg-gray-800 p-8 rounded-xl shadow-lg max-w-4xl mx-auto">
+          <div
+            class="flex justify-between items-center mb-6 pb-4 border-b border-gray-700"
+          >
+            <!-- id="question-number" ditambahkan -->
+            <h2 id="question-number" class="text-xl font-bold text-white">
+              Soal Nomor 1
+            </h2>
+            <!-- id="total-questions-span" ditambahkan -->
+            <span
+              id="total-questions-span"
+              class="text-sm font-medium text-gray-400"
+            >
+              dari 20 soal
+            </span>
+          </div>
+
+          <!-- Konten Soal -->
+          <!-- id="question-text" ditambahkan -->
+          <!-- Konten statis di bawah ini akan dihapus dan diisi oleh JS -->
+          <div
+            id="question-text"
+            class="prose prose-invert max-w-none text-gray-300 space-y-4"
+          >
+            <p>Bacaan berikut digunakan untuk menjawab soal nomor 1 s.d. 3.</p>
+            <p class="font-medium text-justify">
+              Perkembangan teknologi digital telah mengubah lanskap industri
+              media secara fundamental. Model bisnis media tradisional yang
+              mengandalkan iklan cetak dan siaran kini tergerus oleh dominasi
+              platform digital. Media digital menawarkan personalisasi konten
+              yang lebih tinggi dan jangkauan audiens yang lebih luas, namun
+              menghadapi tantangan dalam monetisasi konten dan penyebaran
+              misinformasi...
+            </p>
+            <p class="font-bold text-white mt-4">
+              Manakah pernyataan di bawah ini yang PALING TEPAT merangkum
+              paragraf di atas?
+            </p>
+          </div>
+
+          <!-- Pilihan Ganda (A-E) -->
+          <!-- id="choices-container" ditambahkan -->
+          <!-- Konten statis di bawah ini akan dihapus dan diisi oleh JS -->
+          <div id="choices-container" class="mt-8 space-y-4">
+            <!-- Pilihan A -->
+            <div class="relative">
+              <input
+                type="radio"
+                id="choice-a"
+                name="answer"
+                class="hidden choice-input"
+              />
+              <label
+                for="choice-a"
+                class="choice-label flex items-start p-5 border-2 border-gray-700 rounded-lg cursor-pointer transition-colors duration-200"
+              >
+                <span class="font-bold text-gray-400 mr-4">A.</span>
+                <span class="text-gray-300"
+                  >Monetisasi konten adalah satu-satunya tantangan media digital
+                  saat ini.</span
+                >
+              </label>
+            </div>
+
+            <!-- Pilihan B -->
+            <div class="relative">
+              <input
+                type="radio"
+                id="choice-b"
+                name="answer"
+                class="hidden choice-input"
+              />
+              <label
+                for="choice-b"
+                class="choice-label flex items-start p-5 border-2 border-gray-700 rounded-lg cursor-pointer transition-colors duration-200"
+              >
+                <span class="font-bold text-gray-400 mr-4">B.</span>
+                <span class="text-gray-300"
+                  >Media tradisional lebih unggul karena tidak memiliki masalah
+                  monetisasi.</span
+                >
+              </label>
+            </div>
+
+            <!-- Pilihan C (dll...) -->
+            <div class="relative">
+              <input
+                type="radio"
+                id="choice-c"
+                name="answer"
+                class="hidden choice-input"
+              />
+              <label
+                for="choice-c"
+                class="choice-label flex items-start p-5 border-2 border-gray-700 rounded-lg cursor-pointer transition-colors duration-200"
+              >
+                <span class="font-bold text-gray-400 mr-4">C.</span>
+                <span class="text-gray-300"
+                  >Teknologi digital merevolusi industri media, membawa
+                  tantangan baru sekaligus peluang.</span
+                >
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tombol Navigasi Bawah Soal -->
+        <!-- [PERUBAHAN]: Menambahkan 'id' pada tombol navigasi -->
+        <div class="flex justify-between max-w-4xl mx-auto mt-8">
+          <a
+            href="#"
+            id="prev-button"
+            class="bg-gray-700 border border-gray-600 text-gray-300 font-bold py-3 px-8 rounded-lg hover:bg-gray-600 transition-colors"
+          >
+            &larr; Sebelumnya
+          </a>
+          <a
+            href="#"
+            id="next-button"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-colors"
+          >
+            Selanjutnya &rarr;
+          </a>
+        </div>
+      </main>
+
+      <!-- 3. Panel Kontrol (Kanan) -->
+      <aside
+        class="w-full md:w-80 lg:w-96 bg-gray-800 border-l border-gray-700 p-6 overflow-y-auto"
+      >
+        <!-- 3.1. Timer -->
+        <div class="mb-6 text-center sticky top-6">
+          <h3 class="text-sm font-medium text-gray-400 uppercase">
+            Sisa Waktu
+          </h3>
+          <!-- [PENTING]: ID untuk JavaScript Timer -->
+          <div
+            id="timer-display"
+            class="text-5xl font-bold text-red-500 py-4 bg-gray-900 rounded-lg mt-2"
+          >
+            30:00
+          </div>
+        </div>
+
+        <!-- 3.2. Navigasi Soal -->
+        <div class="mb-6">
+          <h3 class="font-bold text-white mb-3">Navigasi Soal</h3>
+          <!-- [PERUBAHAN]: 
+                    - Kotak navigasi yang hardcoded dihapus
+                    - ID "navigasi-soal-container" ditambahkan untuk diisi oleh JavaScript
+                -->
+          <div id="navigasi-soal-container" class="grid grid-cols-5 gap-2">
+            <!-- Konten ini akan diisi oleh JavaScript -->
+          </div>
+        </div>
+
+        <!-- 3.3. Tombol Aksi -->
+        <div class="space-y-4 pt-6 border-t border-gray-700">
+          <a
+            href="#"
+            class="flex items-center justify-center w-full py-3 px-4 rounded-lg bg-yellow-500 hover:bg-yellow-400 text-black font-medium transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 21v-4m0 0l1.4-1.4a1 1 0 011.4 0l.6.6m-3.4 0H6a2 2 0 012 2v7m-4-9v-2a2 2 0 012-2h10a2 2 0 012 2v5a2 2 0 01-2 2H6a2 2 0 01-2-2z"
+              ></path>
+            </svg>
+            Tandai Ragu-ragu
+          </a>
+
+          <!-- [PENTING]: ID untuk JavaScript Konfirmasi -->
+          <a
+            href="#"
+            id="finish-button"
+            class="flex items-center justify-center w-full py-3 px-4 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            Selesai Ujian
+          </a>
+        </div>
+      </aside>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- === [PENAMBAHAN JAVASCRIPT] === -->
+    <!-- ====================================================== -->
+    <script>
+      // === [AWAL DARI LOGIKA SOAL DINAMIS] ===
+
+      // 1. Database Soal (JavaScript Array)
+      const questions = [
+        {
+          nomor: 1,
+          bacaan:
+            "Perkembangan teknologi digital telah mengubah lanskap industri media secara fundamental. Model bisnis media tradisional tergerus oleh dominasi platform digital...",
+          teks_soal:
+            "Manakah pernyataan di bawah ini yang PALING TEPAT merangkum paragraf di atas?",
+          pilihan: [
+            "Monetisasi konten adalah satu-satunya tantangan media digital.",
+            "Media tradisional lebih unggul karena tidak memiliki masalah monetisasi.",
+            "Teknologi digital merevolusi industri media, membawa tantangan baru sekaligus peluang.",
+          ],
+        },
+        {
+          nomor: 2,
+          bacaan:
+            "Semua mamalia bernapas dengan paru-paru. Paus adalah mamalia. Lumba-lumba bernapas dengan paru-paru.",
+          teks_soal: "Kesimpulan yang PASTI benar adalah...",
+          pilihan: [
+            "Lumba-lumba adalah mamalia.",
+            "Paus bernapas dengan paru-paru.",
+            "Semua yang bernapas dengan paru-paru adalah mamalia.",
+          ],
+        },
+        {
+          nomor: 3,
+          bacaan:
+            "Jika hari ini hujan, Budi membawa payung. Hari ini Budi tidak membawa payung.",
+          teks_soal: "Kesimpulan yang benar adalah...",
+          pilihan: [
+            "Hari ini hujan.",
+            "Hari ini tidak hujan.",
+            "Budi tidak suka hujan.",
+          ],
+        },
+        {
+          nomor: 4,
+          bacaan: "Angka: 3, 5, 8, 13, 21, ...",
+          teks_soal:
+            "Angka selanjutnya dari deret Fibonacci tersebut adalah...",
+          pilihan: ["34", "29", "31"],
+        },
+        {
+          nomor: 5,
+          bacaan:
+            "Semua atlet berlatih keras. Sebagian orang yang berlatih keras tidak minum suplemen.",
+          teks_soal: "Kesimpulan yang mungkin benar adalah...",
+          pilihan: [
+            "Semua atlet minum suplemen.",
+            "Sebagian atlet tidak minum suplemen.",
+            "Yang minum suplemen pasti berlatih keras.",
+          ],
+        },
+      ];
+
+      let currentQuestionIndex = 0; // Melacak soal yang sedang aktif (dimulai dari 0)
+
+      // Ambil elemen-elemen HTML yang akan diubah
+      const questionNumberEl = document.getElementById("question-number");
+      const questionTextEl = document.getElementById("question-text");
+      const choicesContainerEl = document.getElementById("choices-container");
+      const prevButton = document.getElementById("prev-button");
+      const nextButton = document.getElementById("next-button");
+      const totalQuestionsSpan = document.getElementById(
+        "total-questions-span"
+      );
+      const navSoalContainer = document.getElementById(
+        "navigasi-soal-container"
+      );
+
+      // Update total soal di span
+      totalQuestionsSpan.textContent = `dari ${questions.length} soal`;
+
+      // 2. Fungsi untuk Menampilkan Soal
+      function tampilkanSoal(index) {
+        const question = questions[index];
+
+        // Update Nomor Soal
+        questionNumberEl.textContent = `Soal Nomor ${question.nomor}`;
+
+        // Update Teks Soal (Bacaan + Pertanyaan)
+        questionTextEl.innerHTML = `
+                <p class="font-medium text-justify">${question.bacaan || ""}</p>
+                <p class="font-bold text-white mt-4">${question.teks_soal}</p>
+            `;
+
+        // Hapus pilihan ganda sebelumnya
+        choicesContainerEl.innerHTML = "";
+
+        // Buat dan tampilkan pilihan ganda baru
+        question.pilihan.forEach((choice, i) => {
+          const choiceLetter = String.fromCharCode(65 + i); // A, B, C, ...
+          const choiceId = `choice-${choiceLetter.toLowerCase()}`;
+
+          const choiceElement = document.createElement("div");
+          choiceElement.classList.add("relative");
+          choiceElement.innerHTML = `
+                    <input type="radio" id="${choiceId}" name="answer" class="hidden choice-input">
+                    <label for="${choiceId}" 
+                           class="choice-label flex items-start p-5 border-2 border-gray-700 rounded-lg cursor-pointer 
+                                  transition-colors duration-200">
+                        <span class="font-bold text-gray-400 mr-4">${choiceLetter}.</span>
+                        <span class="text-gray-300">${choice}</span>
+                    </label>
+                `;
+          choicesContainerEl.appendChild(choiceElement);
+        });
+
+        // Perbarui status tombol navigasi
+        updateNavButtons();
+        // Perbarui highlight di panel navigasi soal
+        buatNavigasiSoal();
+      }
+
+      // 3. Fungsi untuk meng-update status tombol (disabled/enabled)
+      function updateNavButtons() {
+        // Tombol 'Sebelumnya'
+        if (currentQuestionIndex === 0) {
+          prevButton.classList.add("opacity-50", "cursor-not-allowed"); // Disable
+        } else {
+          prevButton.classList.remove("opacity-50", "cursor-not-allowed"); // Enable
+        }
+
+        // Tombol 'Selanjutnya'
+        if (currentQuestionIndex === questions.length - 1) {
+          nextButton.classList.add("opacity-50", "cursor-not-allowed"); // Disable
+        } else {
+          nextButton.classList.remove("opacity-50", "cursor-not-allowed"); // Enable
+        }
+      }
+
+      // 4. Fungsi BARU untuk membuat navigasi soal
+      function buatNavigasiSoal() {
+        // Kosongkan kontainer navigasi
+        navSoalContainer.innerHTML = "";
+
+        // Buat tombol untuk setiap soal
+        questions.forEach((question, index) => {
+          const button = document.createElement("a");
+          button.href = "#";
+          button.textContent = question.nomor;
+
+          // Atur kelas dasar
+          button.className =
+            "flex items-center justify-center h-10 rounded text-sm font-medium transition-colors";
+
+          // Terapkan style aktif atau non-aktif
+          if (index === currentQuestionIndex) {
+            // Style Aktif
+            button.classList.add(
+              "bg-blue-600",
+              "text-white",
+              "border",
+              "border-blue-400"
+            );
+          } else {
+            // Style Non-Aktif (Nantinya bisa ditambahkan style 'sudah dijawab' atau 'ragu')
+            button.classList.add(
+              "bg-gray-700",
+              "text-gray-300",
+              "hover:bg-gray-600"
+            );
+          }
+
+          // Tambahkan event listener untuk melompat ke soal
+          button.addEventListener("click", (e) => {
+            e.preventDefault();
+            currentQuestionIndex = index;
+            tampilkanSoal(currentQuestionIndex);
+          });
+
+          navSoalContainer.appendChild(button);
+        });
+      }
+
+      // 5. Fungsionalitas Tombol 'Sebelumnya' dan 'Selanjutnya'
+      nextButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (currentQuestionIndex < questions.length - 1) {
+          currentQuestionIndex++;
+          tampilkanSoal(currentQuestionIndex);
+        }
+      });
+
+      prevButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (currentQuestionIndex > 0) {
+          currentQuestionIndex--;
+          tampilkanSoal(currentQuestionIndex);
+        }
+      });
+
+      // 6. Tampilkan soal pertama saat halaman dimuat
+      tampilkanSoal(currentQuestionIndex);
+
+      // === [AKHIR DARI LOGIKA SOAL DINAMIS] ===
+
+      // --- 1. FUNGSI TIMER HITUNG MUNDUR ---
+      // (Logika timer yang sudah ada sebelumnya, tidak diubah)
+      let totalSeconds = 30 * 60;
+
+      const timerDisplay = document.getElementById("timer-display");
+
+      // Jalankan fungsi updateTimer setiap 1 detik
+      const timerInterval = setInterval(updateTimer, 1000);
+
+      function updateTimer() {
+        // Hitung sisa menit dan detik
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+
+        // Format agar selalu 2 digit (misal: 05:03)
+        minutes = String(minutes).padStart(2, "0");
+        seconds = String(seconds).padStart(2, "0");
+
+        // Tampilkan di HTML
+        timerDisplay.textContent = `${minutes}:${seconds}`;
+
+        // Kurangi waktu
+        totalSeconds--;
+
+        // Jika waktu habis
+        if (totalSeconds < 0) {
+          clearInterval(timerInterval); // Hentikan timer
+          timerDisplay.textContent = "00:00";
+
+          // Gunakan alert kustom jika ada, untuk sementara pakai alert bawaan
+          alert("Waktu Habis! Ujian akan dikumpulkan secara otomatis.");
+
+          // Arahkan ke halaman hasil (file berikutnya yang akan kita buat)
+          window.location.href = "hasil-tryout.html";
+        }
+      }
+
+      // --- 2. FUNGSI KONFIRMASI SELESAI UJIAN ---
+
+      const finishButton = document.getElementById("finish-button");
+
+      finishButton.addEventListener("click", function (event) {
+        // Mencegah link langsung berpindah halaman
+        event.preventDefault();
+
+        // Tampilkan kotak konfirmasi bawaan browser
+        // (Dalam aplikasi nyata, Anda mungkin ingin mengganti ini dengan Modal kustom)
+        const isConfirmed = confirm(
+          "Apakah Anda yakin ingin menyelesaikan ujian ini?"
+        );
+
+        // Jika pengguna menekan "OK"
+        if (isConfirmed) {
+          // Hentikan timer (opsional, tapi bagus)
+          clearInterval(timerInterval);
+
+          // Arahkan ke halaman hasil (file berikutnya yang akan kita buat)
+          window.location.href = "hasil-tryout.html";
+        }
+        // Jika pengguna menekan "Cancel", tidak terjadi apa-apa
+      });
+    </script>
+    <!-- ====================================================== -->
+    <!-- === [AKHIR DARI JAVASCRIPT] === -->
+    <!-- ====================================================== -->
+  </body>
+</html>
