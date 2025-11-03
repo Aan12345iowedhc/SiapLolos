@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pembahasan Tryout - SiapLolos</title>
+    <!-- Memuat Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* [PERUBAHAN]: Style khusus untuk highlight jawaban */
+      .choice-label.correct {
+        border-color: #22c55e; /* green-500 */
+        background-color: rgba(34, 197, 94, 0.1);
+      }
+      .choice-label.incorrect {
+        border-color: #ef4444; /* red-500 */
+        background-color: rgba(239, 68, 68, 0.1);
+        opacity: 0.7;
+      }
+      .choice-label.neutral {
+        border-color: #4b5563; /* gray-700 */
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-200 font-sans">
+    <!-- 1. Header Pembahasan (Mirip Tryout) -->
+    <nav
+      class="bg-gray-800 shadow-lg sticky top-0 z-50 border-b border-gray-700"
+    >
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div>
+          <span class="text-sm text-gray-400"
+            >Pembahasan Tryout Premium #3</span
+          >
+          <h1 class="text-xl font-bold text-white">Penalaran Umum</h1>
+        </div>
+        <!-- Tombol kembali ke Halaman Hasil -->
+        <a
+          href="hasil-tryout.html"
+          class="text-sm font-medium text-purple-400 hover:text-purple-300"
+        >
+          &larr; Kembali ke Hasil
+        </a>
+      </div>
+    </nav>
+
+    <!-- Layout Utama -->
+    <div class="flex flex-col md:flex-row" style="height: calc(100vh - 69px)">
+      <!-- 2. Area Utama (Kiri): Soal, Pilihan, & Pembahasan -->
+      <main class="flex-1 overflow-y-auto p-6 md:p-10">
+        <div class="max-w-4xl mx-auto">
+          <!-- Kontainer Soal -->
+          <div class="bg-gray-800 p-8 rounded-xl shadow-lg">
+            <div
+              class="flex justify-between items-center mb-6 pb-4 border-b border-gray-700"
+            >
+              <h2 id="question-number" class="text-xl font-bold text-white">
+                Soal Nomor 1
+              </h2>
+              <span
+                id="total-questions-span"
+                class="text-sm font-medium text-gray-400"
+                >dari 5 soal</span
+              >
+            </div>
+
+            <div
+              id="question-text"
+              class="prose prose-invert max-w-none text-gray-300 space-y-4"
+            >
+              <!-- Konten soal diisi oleh JS -->
+            </div>
+
+            <div id="choices-container" class="mt-8 space-y-4">
+              <!-- Konten pilihan ganda diisi oleh JS -->
+            </div>
+          </div>
+
+          <!-- [PERUBAHAN BARU]: Kartu Pembahasan Mendalam -->
+          <div
+            id="pembahasan-container"
+            class="bg-gray-800 p-8 rounded-xl shadow-lg mt-8 border-t-4 border-purple-500"
+          >
+            <h2 class="text-2xl font-bold text-white mb-4">
+              Pembahasan Mendalam
+            </h2>
+            <div
+              id="pembahasan-text"
+              class="prose prose-invert max-w-none text-gray-300 space-y-4"
+            >
+              <!-- Konten pembahasan diisi oleh JS -->
+            </div>
+          </div>
+
+          <!-- Tombol Navigasi Bawah Soal -->
+          <div class="flex justify-between max-w-4xl mx-auto mt-8">
+            <a
+              href="#"
+              id="prev-button"
+              class="bg-gray-700 border border-gray-600 text-gray-300 font-bold py-3 px-8 rounded-lg hover:bg-gray-600 transition-colors"
+            >
+              &larr; Sebelumnya
+            </a>
+            <a
+              href="#"
+              id="next-button"
+              class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-lg transition-colors"
+            >
+              Selanjutnya &rarr;
+            </a>
+          </div>
+        </div>
+      </main>
+
+      <!-- 3. Sidebar Kanan: Kontrol & Navigasi -->
+      <aside
+        class="w-full md:w-80 lg:w-96 bg-gray-800 border-l border-gray-700 p-6 overflow-y-auto"
+      >
+        <!-- [DIHAPUS]: Timer dihapus dari sini -->
+
+        <!-- 3.2. Navigasi Soal -->
+        <div class="mb-6 sticky top-6">
+          <h3 class="font-bold text-white mb-3">Navigasi Pembahasan</h3>
+          <div id="navigasi-soal-container" class="grid grid-cols-5 gap-2">
+            <!-- Konten ini akan diisi oleh JavaScript -->
+          </div>
+        </div>
+
+        <!-- [DIHAPUS]: Tombol Aksi (Ragu/Selesai) dihapus -->
+      </aside>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- === [PENAMBAHAN JAVASCRIPT] === -->
+    <!-- ====================================================== -->
+    <script>
+      // 1. Database Pembahasan (Mirip tryout.html, tapi dengan data jawaban)
+      const allQuestions = [
+        {
+          nomor: 1,
+          bacaan:
+            "Perkembangan teknologi digital telah mengubah lanskap industri media...",
+          teks_soal:
+            "Manakah pernyataan di bawah ini yang PALING TEPAT merangkum paragraf di atas?",
+          pilihan: [
+            "Monetisasi konten adalah satu-satunya tantangan media digital.",
+            "Media tradisional lebih unggul karena tidak memiliki masalah monetisasi.",
+            "Teknologi digital merevolusi industri media, membawa tantangan baru sekaligus peluang.",
+          ],
+          jawaban_benar_index: 2, // 'C'
+          jawaban_pengguna_index: 0, // 'A' (Contoh pengguna salah)
+          teks_pembahasan:
+            "<p>Jawaban yang benar adalah <strong>C</strong>.</p><p>Paragraf tersebut menjelaskan dampak fundamental teknologi digital terhadap industri media, yang menggeser model bisnis tradisional. Ini mencakup 'tantangan' (monetisasi) dan 'peluang' (platform baru), yang dirangkum dengan sempurna oleh pilihan C.</p>",
+        },
+        {
+          nomor: 2,
+          bacaan:
+            "Semua mamalia bernapas dengan paru-paru. Paus adalah mamalia...",
+          teks_soal: "Kesimpulan yang PASTI benar adalah...",
+          pilihan: [
+            "Lumba-lumba adalah mamalia.",
+            "Paus bernapas dengan paru-paru.",
+            "Semua yang bernapas dengan paru-paru adalah mamalia.",
+          ],
+          jawaban_benar_index: 1, // 'B'
+          jawaban_pengguna_index: 1, // 'B' (Contoh pengguna benar)
+          teks_pembahasan:
+            "<p>Jawaban yang benar adalah <strong>B</strong>.</p><p>Premis 1: Semua mamalia (A) bernapas dengan paru-paru (B).<br>Premis 2: Paus (C) adalah mamalia (A).<br>Kesimpulan: Paus (C) bernapas dengan paru-paru (B). Ini adalah silogisme yang valid.</p>",
+        },
+        {
+          nomor: 3,
+          bacaan:
+            "Jika hari ini hujan, Budi membawa payung. Hari ini Budi tidak membawa payung.",
+          teks_soal: "Kesimpulan yang benar adalah...",
+          pilihan: [
+            "Hari ini hujan.",
+            "Hari ini tidak hujan.",
+            "Budi tidak suka hujan.",
+          ],
+          jawaban_benar_index: 1, // 'B'
+          jawaban_pengguna_index: 1, // 'B'
+          teks_pembahasan:
+            "<p>Jawaban yang benar adalah <strong>B</strong>.</p><p>Ini adalah modus Tollens. (Jika P maka Q. Bukan Q. Maka kesimpulannya adalah Bukan P). <br>P = Hari ini hujan<br>Q = Budi membawa payung.<br>Premis 2 (Bukan Q) adalah 'Budi tidak membawa payung', maka kesimpulannya (Bukan P) adalah 'Hari ini tidak hujan'.</p>",
+        },
+        {
+          nomor: 4,
+          bacaan: "Angka: 3, 5, 8, 13, 21, ...",
+          teks_soal:
+            "Angka selanjutnya dari deret Fibonacci tersebut adalah...",
+          pilihan: ["34", "29", "31"],
+          jawaban_benar_index: 0, // 'A'
+          jawaban_pengguna_index: 0, // 'A'
+          teks_pembahasan:
+            "<p>Jawaban yang benar adalah <strong>A</strong>.</p><p>Ini adalah deret Fibonacci, di mana setiap angka adalah jumlah dari dua angka sebelumnya. (3+5=8), (5+8=13), (8+13=21). Maka angka selanjutnya adalah (13+21) = 34.</p>",
+        },
+        {
+          nomor: 5,
+          bacaan:
+            "Semua atlet berlatih keras. Sebagian orang yang berlatih keras tidak minum suplemen.",
+          teks_soal: "Kesimpulan yang mungkin benar adalah...",
+          pilihan: [
+            "Semua atlet minum suplemen.",
+            "Sebagian atlet tidak minum suplemen.",
+            "Yang minum suplemen pasti berlatih keras.",
+          ],
+          jawaban_benar_index: 1, // 'B'
+          jawaban_pengguna_index: 0, // 'A' (Contoh pengguna salah)
+          teks_pembahasan:
+            "<p>Jawaban yang benar adalah <strong>B</strong>.</p><p>Kita tahu 'Semua atlet (A) berlatih keras (B)'. Kita juga tahu 'Sebagian yang berlatih keras (B) tidak minum suplemen (C)'. Karena A adalah bagian dari B, maka 'sebagian' dari B itu *bisa jadi* adalah atlet. Oleh karena itu, kesimpulan yang *mungkin* benar adalah 'Sebagian atlet tidak minum suplemen'.</p>",
+        },
+      ];
+
+      let currentQuestionIndex = 0; // Melacak soal yang sedang aktif
+
+      // Ambil elemen HTML
+      const questionNumberEl = document.getElementById("question-number");
+      const questionTextEl = document.getElementById("question-text");
+      const choicesContainerEl = document.getElementById("choices-container");
+      const pembahasanTextEl = document.getElementById("pembahasan-text");
+      const prevButton = document.getElementById("prev-button");
+      const nextButton = document.getElementById("next-button");
+      const totalQuestionsSpan = document.getElementById(
+        "total-questions-span"
+      );
+      const navSoalContainer = document.getElementById(
+        "navigasi-soal-container"
+      );
+
+      totalQuestionsSpan.textContent = `dari ${allQuestions.length} soal`;
+
+      // 2. Fungsi untuk Menampilkan Pembahasan
+      function tampilkanPembahasan(index) {
+        const q = allQuestions[index];
+
+        questionNumberEl.textContent = `Soal Nomor ${q.nomor}`;
+        questionTextEl.innerHTML = `
+                <p class="font-medium text-justify">${q.bacaan || ""}</p>
+                <p class="font-bold text-white mt-4">${q.teks_soal}</p>
+            `;
+
+        // Tampilkan Pembahasan
+        pembahasanTextEl.innerHTML = q.teks_pembahasan;
+
+        choicesContainerEl.innerHTML = ""; // Kosongkan pilihan ganda
+
+        // Tampilkan pilihan ganda dengan highlight
+        q.pilihan.forEach((choice, i) => {
+          const choiceLetter = String.fromCharCode(65 + i);
+
+          const choiceElement = document.createElement("div");
+          choiceElement.classList.add("relative");
+
+          let highlightClass = "neutral";
+          if (i === q.jawaban_benar_index) {
+            highlightClass = "correct"; // Jawaban Benar (Hijau)
+          } else if (i === q.jawaban_pengguna_index) {
+            highlightClass = "incorrect"; // Jawaban Pengguna yang Salah (Merah)
+          }
+
+          choiceElement.innerHTML = `
+                    <label class="choice-label ${highlightClass} flex items-start p-5 border-2 rounded-lg cursor-default transition-colors duration-200">
+                        <span class="font-bold text-gray-400 mr-4">${choiceLetter}.</span>
+                        <span class="text-gray-300">${choice}</span>
+                    </label>
+                `;
+          choicesContainerEl.appendChild(choiceElement);
+        });
+
+        updateNavButtons();
+        buatNavigasiSoal();
+      }
+
+      // 3. Fungsi untuk meng-update status tombol navigasi
+      function updateNavButtons() {
+        prevButton.classList.toggle("opacity-50", currentQuestionIndex === 0);
+        prevButton.classList.toggle(
+          "cursor-not-allowed",
+          currentQuestionIndex === 0
+        );
+        nextButton.classList.toggle(
+          "opacity-50",
+          currentQuestionIndex === allQuestions.length - 1
+        );
+        nextButton.classList.toggle(
+          "cursor-not-allowed",
+          currentQuestionIndex === allQuestions.length - 1
+        );
+      }
+
+      // 4. Fungsi untuk membuat navigasi soal di sidebar
+      function buatNavigasiSoal() {
+        navSoalContainer.innerHTML = "";
+        allQuestions.forEach((q, index) => {
+          const button = document.createElement("a");
+          button.href = "#";
+          button.textContent = q.nomor;
+          button.className =
+            "flex items-center justify-center h-10 rounded text-sm font-medium transition-colors";
+
+          // Style berdasarkan status jawaban
+          let styleClass = "";
+          if (q.jawaban_pengguna_index === q.jawaban_benar_index) {
+            styleClass = "bg-green-700 hover:bg-green-600 text-white"; // Benar
+          } else {
+            styleClass = "bg-red-700 hover:bg-red-600 text-white"; // Salah
+          }
+
+          // Highlight jika soal sedang aktif
+          if (index === currentQuestionIndex) {
+            styleClass = "bg-purple-600 text-white border border-purple-400"; // Aktif
+          }
+
+          button.classList.add(...styleClass.split(" "));
+
+          button.addEventListener("click", (e) => {
+            e.preventDefault();
+            currentQuestionIndex = index;
+            tampilkanPembahasan(currentQuestionIndex);
+          });
+          navSoalContainer.appendChild(button);
+        });
+      }
+
+      // 5. Event listener untuk tombol 'Sebelumnya' dan 'Selanjutnya'
+      nextButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (currentQuestionIndex < allQuestions.length - 1) {
+          currentQuestionIndex++;
+          tampilkanPembahasan(currentQuestionIndex);
+        }
+      });
+
+      prevButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (currentQuestionIndex > 0) {
+          currentQuestionIndex--;
+          tampilkanPembahasan(currentQuestionIndex);
+        }
+      });
+
+      // 6. Tampilkan pembahasan soal pertama saat halaman dimuat
+      tampilkanPembahasan(currentQuestionIndex);
+    </script>
+  </body>
+</html>
